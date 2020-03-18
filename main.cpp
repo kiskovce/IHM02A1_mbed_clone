@@ -23,20 +23,20 @@ int main()
 	  switch (message[0])
 	  {
 	  case 65:  //'A' - test write
-		  motors[0]->set_max_speed(121);
+		  motors[0]->set_max_speed(121);   ///PRIAMY PRISTUP Z MAIN FUNGUJE
 		  pci.printf("_A\n");
 	  break;
 
 	  case 66:  //'B' - test read
-		  pci.printf ("_B_%d\n", motors[0]->get_max_speed());
+		  pci.printf ("_B_%d\n", motors[0]->get_max_speed());    ///PRIAMY PRISTUP Z MAIN FUNGUJE
 	  break;
 
 	  case 83:  //'S' - set setup
-		reply = set_message();
+		reply = set_message();     ///PRISTUP CEZ serial_functions.cpp - > L6470_functions.cpp NEFUNGUJE
 	  break;
 
 	  case 82:  //'R' - read setup
-		reply = read_message();
+		reply = read_message();    ///PRISTUP CEZ serial_functions.cpp - > L6470_functions.cpp NEFUNGUJE
 	  break;
 
 	  case 88:   //'X'  X move
