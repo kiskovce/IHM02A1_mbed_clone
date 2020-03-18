@@ -22,6 +22,15 @@ int main()
 
 	  switch (message[0])
 	  {
+	  case 65:  //'A' - test write
+		  motors[0]->set_max_speed(121);
+		  pci.printf("_A\n");
+	  break;
+
+	  case 66:  //'B' - test read
+		  pci.printf ("_B_%d\n", motors[0]->get_max_speed());
+	  break;
+
 	  case 83:  //'S' - set setup
 		reply = set_message();
 	  break;
@@ -31,27 +40,20 @@ int main()
 	  break;
 
 	  case 88:   //'X'  X move
-		pci.printf("Move x mode\n");
-		pci.printf("second char is : %c\n", message[1]);
-		//reply = x_movement();
 		speedoo = motors[0]->get_max_speed();
-		pci.printf("Printo is : %d\n", speedoo);
+		pci.printf("_X\n");
 	  break;
 
 	  case 89:  // 'Y' Y move
-		  pci.printf("Move Y mode\n");
-		  pci.printf("second char is : %c\n", message[1]);
-		  motors[0]->set_max_speed(300);
-		  wait(1);
 		  motors[0]->set_max_speed(200);
-		  //reply = y_movement();
+		  pci.printf("_Y\n");
 	  break;
 
 	  case 90:  // 'Z' XY move
-		  pci.printf("move xy mode\n");
-		  pci.printf("second char is : %c\n", message[1]);
 		  reply = xy_movement();
+		  pci.printf("_Z\n");
 	  break;
+
 
 	  }
 	memset(message, '\0', sizeof message);
