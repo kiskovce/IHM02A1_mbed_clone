@@ -16,7 +16,7 @@ extern int16_t get_mark(uint8_t mtr);
 extern void set_parameter(uint8_t mtr, uint16_t parameter, uint16_t value);
 extern void set_home(uint8_t mtr);
 extern void set_mark(uint8_t mtr);
-extern void set_max_speed(uint8_t mtr, uint16_t max_speed);
+extern void set_max_speed(L6470 **motors, uint8_t mtr, uint16_t max_speed);
 extern void set_min_speed(uint8_t mtr, uint16_t min_speed);
 extern void set_accel(uint8_t mtr, uint16_t accel);
 extern void set_deccel(uint8_t mtr, uint16_t deccel);
