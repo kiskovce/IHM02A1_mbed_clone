@@ -10,7 +10,7 @@ extern RawSerial pci;
 int read_serial(void);
 
 void onDataReceived(void);
-bool set_message(void);
+bool set_message(L6470 **motors);
 bool read_message(void);
 bool x_movement(void);
 bool y_movement(void);
