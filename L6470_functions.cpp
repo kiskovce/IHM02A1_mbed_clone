@@ -190,7 +190,7 @@ int16_t get_mark(uint8_t mtr)
 	return mark;
 }
 
-void set_max_speed(uint8_t mtr, uint16_t max_speed)
+void set_max_speed(L6470 **motors, uint8_t mtr, uint16_t max_speed)
 {
 	if (mtr == 0)
 		{
