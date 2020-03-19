@@ -57,7 +57,7 @@ bool set_message(L6470 **motors)
 
 	case 66: //'B' set_max_speed
 		pci.printf("_SB0\n");
-		set_max_speed(0, 200);
+		set_max_speed(motors, 0, 200);
 	break;
 
 	case 67: //'C' set_min_speed
