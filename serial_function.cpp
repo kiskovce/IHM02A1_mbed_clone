@@ -39,7 +39,7 @@ void read_serial() {
 	pci.attach(&onDataReceived, Serial::RxIrq);	// reattach interrupt
 }
 
-bool set_message(void)
+bool set_message(L6470 **motors)
 
 {
 	int second_char = message[1];
