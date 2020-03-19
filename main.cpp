@@ -32,7 +32,7 @@ int main()
 	  break;
 
 	  case 83:  //'S' - set setup
-		reply = set_message();     ///PRISTUP CEZ serial_functions.cpp - > L6470_functions.cpp NEFUNGUJE
+		reply = set_message(motors);     ///PRISTUP CEZ serial_functions.cpp - > L6470_functions.cpp NEFUNGUJE
 	  break;
 
 	  case 82:  //'R' - read setup
