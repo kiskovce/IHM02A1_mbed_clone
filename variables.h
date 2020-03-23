@@ -13,6 +13,5 @@ extern float kval_run;
 extern float kval_hold;
 extern float kval_accel;
 extern float kval_decel;
-extern uint8_t mtr;
 
 #endif /* VARIABLES_CPP_ */

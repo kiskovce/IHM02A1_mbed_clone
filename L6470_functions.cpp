@@ -5,138 +5,48 @@
 #include "variables.h"
 #include "serial_function.h"
 
-uint16_t get_speed(uint8_t mtr)
+
+uint16_t get_speed(L6470 **motors, uint8_t mtr)
 {
-	uint16_t speed;
-	if (mtr == 0)
-	{
-		speed = motors[0]->get_speed();
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		speed = motors[1]->get_speed();
-		pci.printf("motor_1\n");
-	}
-	//else
-	//	pc.printf("Error Code\n");
-	return speed;
+	return motors[mtr]->get_speed();
 }
 
-uint16_t get_max_speed(uint8_t mtr)
+uint16_t get_max_speed(L6470 **motors, uint8_t mtr)
 {
 	return motors[mtr]->get_max_speed();
 }
 
-uint16_t get_min_speed(uint8_t mtr)
+uint16_t get_min_speed(L6470 **motors, uint8_t mtr)
 {
-	uint16_t min_speed;
-	if (mtr == 0)
-	{
-		min_speed = motors[0]->get_min_speed();
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		min_speed = motors[1]->get_min_speed();
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error Code\n");
-	return min_speed;
+	return motors[mtr]->get_min_speed();
 }
 
-uint16_t get_accel(uint8_t mtr)
+uint16_t get_accel(L6470 **motors, uint8_t mtr)
 {
-	uint16_t accel;
-	if (mtr == 0)
-	{
-		accel = motors[0]->get_acceleration();
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		accel = motors[1]->get_acceleration();
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error Code\n");
-	return accel;
+	return motors[mtr]->get_acceleration();
 }
 
-uint16_t get_deccel(uint8_t mtr)
+uint16_t get_deccel(L6470 **motors, uint8_t mtr)
 {
-	uint16_t deccel;
-	if (mtr == 0)
-	{
-		deccel = motors[0]->get_deceleration();
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		deccel = motors[1]->get_deceleration();
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error Code\n");
-	return deccel;
+	return motors[mtr]->get_deceleration();
 }
 
-uint8_t get_step_mode(uint8_t mtr)
+uint8_t get_step_mode(L6470 **motors, uint8_t mtr)
 {
-	uint8_t step_mode;
-	if(mtr == 0)
-	{
-		step_mode = init[0].step_sel;
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		step_mode = init[1].step_sel;
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error code\n");
-	return step_mode;
+	return init[mtr].step_sel;
 }
 
-StepperMotor::direction_t get_direction(uint8_t mtr)
+StepperMotor::direction_t get_direction(L6470 **motors, uint8_t mtr)
 {
-	StepperMotor::direction_t direction;
-	if (mtr == 0)
-	{
-		direction = motors[0]->get_direction();
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		direction = motors[1]->get_direction();
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error Code\n");
-	return direction;
+	return motors[mtr]->get_direction();
 }
 
-uint16_t get_status(uint8_t mtr)
+uint16_t get_status(L6470 **motors, uint8_t mtr)
 {
-	uint16_t status;
-	if (mtr == 0)
-	{
-		status = motors[0]->get_status();
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		status = motors[1]->get_status();
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error Code\n");
-	return status;
+	return motors[mtr]->get_status();
 }
 
-uint16_t get_parameter(uint8_t mtr, uint16_t parameter)
+uint16_t get_parameter(L6470 **motors, uint8_t mtr, uint16_t parameter)
 {
 	uint16_t parameter_value;
 	if (mtr == 0)
@@ -154,167 +64,73 @@ uint16_t get_parameter(uint8_t mtr, uint16_t parameter)
 	return parameter_value;
 }
 
-int16_t get_position(uint8_t mtr)
+int16_t get_position(L6470 **motors, uint8_t mtr)
 {
-	int16_t position;
-	if (mtr == 0)
-	{
-		position = motors[0]->get_position();
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		position = motors[1]->get_position();
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error Code\n");
-	return position;
+	return  motors[mtr]->get_position();
 }
 
-int16_t get_mark(uint8_t mtr)
+int16_t get_mark(L6470 **motors, uint8_t mtr)
 {
-	int16_t mark;
-	if (mtr == 0)
-	{
-		mark = motors[0]->get_mark();
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		mark = motors[1]->get_mark();
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error Code\n");
-	return mark;
+	return motors[mtr]->get_mark();
 }
 
-void set_max_speed(uint8_t mtr, uint16_t max_speed)
+void set_max_speed(L6470 **motors, uint8_t mtr, uint16_t max_speed)
 {
-	if (mtr == 0)
-		{
-		motors[0]->set_max_speed(300);
-		}
-	else if (mtr == 1)
-		{
-		motors[1]->set_max_speed(max_speed);
-		}
+	motors[mtr]->set_max_speed(max_speed);
 }
 
-void set_min_speed(uint8_t mtr, uint16_t min_speed)
+void set_min_speed(L6470 **motors, uint8_t mtr, uint16_t min_speed)
 {
-	if (mtr == 0)
-		{
-		motors[0]->set_min_speed(min_speed);
-		pci.printf("motor_0\n");
-		}
-	else if (mtr == 1)
-		{
-		motors[1]->set_max_speed(min_speed);
-		pci.printf("motor_1\n");
-		}
-	//else
-		//pc.printf("Error code\n");
+	motors[mtr]->set_max_speed(min_speed);
 }
 
-void set_accel(uint8_t mtr, uint16_t accel)
+void set_accel(L6470 **motors, uint8_t mtr, uint16_t accel)
 {
-	if (mtr == 0)
-		{
-		motors[0]->set_acceleration(accel);
-		pci.printf("motor_0\n");
-		}
-	else if (mtr == 1)
-		{
-		motors[1]->set_acceleration(accel);
-		pci.printf("motor_1\n");
-		}
-	//else
-		//pc.printf("Error code\n");
+		motors[mtr]->set_acceleration(accel);
 }
 
-void set_deccel(uint8_t mtr, uint16_t deccel)
+void set_deccel(L6470 **motors, uint8_t mtr, uint16_t deccel)
 {
-	if (mtr == 0)
-		{
-		motors[0]->set_deceleration(deccel);
-		pci.printf("motor_0\n");
-		}
-	else if (mtr == 1)
-		{
-		motors[1]->set_deceleration(deccel);
-		pci.printf("motor_1\n");
-		}
-	//else
-		//pc.printf("Error code\n");
+		motors[mtr]->set_deceleration(deccel);
 }
 
-void set_step_mode(uint8_t mtr, StepperMotor::step_mode_t step_mode)
+void set_step_mode(L6470 **motors, uint8_t mtr, StepperMotor::step_mode_t step_mode)
 {
-if (mtr == 0)
-	{
-	motors[0]->set_step_mode(step_mode);
-	pci.printf("motor_0\n");
-	}
-else if (mtr == 1)
-	{
-	motors[1]->set_step_mode(step_mode);
-	pci.printf("motor_1\n");
-	}
-//else
-	//pc.printf("Error code\n");
+	motors[mtr]->set_step_mode(step_mode);
 }
 
-void set_parameter(uint8_t mtr, uint16_t parameter, uint16_t value)
+void set_parameter(L6470 **motors, uint8_t mtr, uint16_t parameter, uint16_t value)
 {
-	if (mtr == 0)
-	{
-		motors[0]->set_parameter(parameter, value);
-		pci.printf("motor_0\n");
-	}
-	else if (mtr == 1)
-	{
-		motors[1]->set_parameter(parameter, value);
-		pci.printf("motor_1\n");
-	}
-	//else
-		//pc.printf("Error Code\n");
+	motors[mtr]->set_parameter(parameter, value);
 }
 
-void set_home(uint8_t mtr)
+void set_home(L6470 **motors, uint8_t mtr)
 {
 	motors[mtr]->set_home();
-	pci.printf("motor_%d\n", mtr);
 }
 
-void set_mark(uint8_t mtr)
+void set_mark(L6470 **motors, uint8_t mtr)
 {
 	motors[mtr]->set_mark();
-	pci.printf("motor_%d\n", mtr);
 }
 
-void set_kval_run(uint8_t mtr, float kval_run)
+void set_kval_run(L6470 **motors, uint8_t mtr, float kval_run)
 {
 	init[mtr].kvalrun = kval_run;
-	pci.printf("motor_%d\n", mtr);
 }
 
-void set_kval_hold(uint8_t mtr, float kval_hold)
+void set_kval_hold(L6470 **motors, uint8_t mtr, float kval_hold)
 {
 	init[mtr].kvalhold = kval_hold;
-	pci.printf("motor_%d\n", mtr);
 }
 
-void set_kval_accel(uint8_t mtr, float kval_accel)
+void set_kval_accel(L6470 **motors, uint8_t mtr, float kval_accel)
 {
 	init[mtr].kvalacc = kval_accel;
-	pci.printf("motor_%d\n", mtr);
 }
 
-void set_kval_decel(uint8_t mtr, float kval_decel)
+void set_kval_decel(L6470 **motors, uint8_t mtr, float kval_decel)
 {
 	init[mtr].kvaldec = kval_decel;
-	pci.printf("motor_%d\n", mtr);
 }
 

@@ -3,6 +3,9 @@
 #include "DevSPI.h"
 #include "functions.h"
 #include "serial_function.h"
+#include "L6470.h"
+#include "StepperMotor.h"
+#include "L6470_functions.h"
 
 XNucleoIHM02A1 *x_nucleo_ihm02a1;
 DevSPI dev_spi(D11, D12, D3);
@@ -32,11 +35,11 @@ int main()
 	  break;
 
 	  case 83:  //'S' - set setup
-		reply = set_message();
+		reply = set_message(motors);
 	  break;
 
 	  case 82:  //'R' - read setup
-		reply = read_message();
+		reply = read_message(motors);
 	  break;
 
 	  case 88:   //'X'  X move

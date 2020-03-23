@@ -1,18 +1,21 @@
-#include <string>
 #include "mbed.h"
 #include "DevSPI.h"
 #include "XNucleoIHM02A1.h"
 #include "variables.h"
 #include "L6470_functions.h"
 #include "StepperMotor.h"
+#include "main.h"
+#include "L6470.h"
+
+#define STRING_SIZE 7
 
 RawSerial pci(USBTX, USBRX);
 
 EventQueue *queue = mbed_event_queue();
 
 void read_serial(void);
-
-
+int16_t extract_int(char *input);
+uint8_t extract_motor(char *input);
 char message [32];
 char message_irq[32];
 
@@ -39,85 +42,84 @@ void read_serial() {
 	pci.attach(&onDataReceived, Serial::RxIrq);	// reattach interrupt
 }
 
-bool set_message(void)
+bool set_message(L6470 **motors)
 
 {
 	int second_char = message[1];
-	uint16_t num;
-	StepperMotor::step_mode_t step_md;
-	num = 100;
-	mtr = 0;
+	uint16_t num = extract_int(message);
+	uint8_t mtr = extract_motor(message);
+	StepperMotor::step_mode_t step_mode = StepperMotor::STEP_MODE_FULL;
 
 	switch (second_char)
 	{
 	case 65: //'A' set_step
-		pci.printf("_SA0\n");
-		//set_step_mode(mtr, step_md);
+		pci.printf("_SA_%d_%d\n", mtr, num);
+		set_step_mode(motors, mtr, step_mode);
 	break;
 
 	case 66: //'B' set_max_speed
-		pci.printf("_SB0\n");
-		set_max_speed(0, 200);
+		pci.printf("_SB_%d_%d\n", mtr, num);
+		set_max_speed(motors, mtr, num);
 	break;
 
 	case 67: //'C' set_min_speed
-		pci.printf("_SC0\n");
-		//set_min_speed(mtr, num);
+		pci.printf("_SC_%d_%d\n", mtr, num);
+		set_min_speed(motors, mtr, num);
 	break;
 
 	case 68: //'D' set_accel
-		pci.printf("_SD0\n");
-		//set_accel(mtr, num);
+		pci.printf("_SD_%d_%d\n", mtr, num);
+		set_accel(motors, mtr, num);
 	break;
 
 	case 69: //'E' set_decel
-		pci.printf("_SE0\n");
-		//set_deccel(mtr, num);
+		pci.printf("_SE_%d_%d\n", mtr, num);
+		set_deccel(motors, mtr, num);
 	break;
 
 	case 70: //'F' set mark
-		pci.printf("_SF0\n");
-		//set_mark(mtr);
+		pci.printf("_SF_%d\n", mtr);
+		set_mark(motors, mtr);
 	break;
 
 	case 71: //'G' set home
-		pci.printf("_SG0\n");
-		//set_home(mtr);
+		pci.printf("_SG_%d\n", mtr);
+		set_home(motors, mtr);
 	break;
 
 	case 72: //'H' set parameter
 		uint16_t parameter;
 		uint16_t value;
 		pci.printf("_SH0\n");
-		//set_parameter(mtr, parameter, value);
+		set_parameter(motors, mtr, 2, 5);
 	break;
 
 	case 73: //'I' set kval hold
-		pci.printf("_SI0\n");
-		//set_kval_hold(mtr, kval_hold);
+		pci.printf("_SI_%d_%d\n", mtr, num);
+		set_kval_hold(motors, mtr, num);
 	break;
 
 	case 74: //'J' set kval run
-		pci.printf("_SJ0\n");
-		//set_kval_run(mtr, kval_run);
+		pci.printf("_SJ_%d_%d\n", mtr, num);
+		set_kval_run(motors, mtr, num);
 	break;
 
 	case 75: //'K' set kval accel
-		pci.printf("_SK0\n");
-		//set_kval_accel(mtr, kval_accel);
+		pci.printf("_SK_%d_%d\n", mtr, num);
+		set_kval_accel(motors, mtr, kval_accel);
 	break;
 
 	case 76: //'L' set kval deccel
-		pci.printf("_SL0\n");
-		//set_kval_decel(mtr, kval_decel);
+		pci.printf("_SL_%d_%d\n", mtr, num);
+		set_kval_decel(motors, mtr, kval_decel);
 	break;
 
 	case 81: //'Q' set max voltage
-		pci.printf("_SQ0\n");
+		pci.printf("_SQ_%d_%d\n", mtr, num);
 	break;
 
 	case 82: //'R' set max current
-		pci.printf("_SR0\n");
+		pci.printf("_SR_%d_%d\n", mtr, num);
 	break;
 
 	default:
@@ -129,7 +131,7 @@ bool set_message(void)
 	return true;
 }
 
-bool read_message(void)
+bool read_message(L6470 **motors)
 {
  int second_char = message[1];
 	 uint16_t sf_speed;
@@ -151,94 +153,95 @@ bool read_message(void)
  	 uint16_t sf_kval_accel;
  	 uint16_t sf_kval_decel;
 
- 	mtr = 0;
+ 	uint16_t num = extract_int(message);
+ 	uint8_t mtr = extract_motor(message);
 
  switch (second_char)
  {
  case 65: //'A'  -get step mode
-  	 //sf_step_mode = get_step_mode(mtr);
-  	 pci.printf("_RA%d\n", sf_step_mode);
+  	 sf_step_mode = get_step_mode(motors, mtr);
+  	 pci.printf("_RA_%d_%d\n",mtr, sf_step_mode);
   break;
 
  case 66: //'B'  -get max speed
-	 sf_max_speed = get_max_speed(0);
-	 pci.printf("_RB%d\n", sf_max_voltage);
+	 sf_max_speed = get_max_speed(motors, mtr);
+	 pci.printf("_RB_%d_%d\n",mtr,sf_max_speed);
   break;
 
  case 67: //'C'  -get min speed
-	 //sf_min_speed = get_min_speed(mtr);
-	 pci.printf("_RC%d\n", sf_min_speed);
+	 sf_min_speed = get_min_speed(motors, mtr);
+	 pci.printf("_RC_%d_%d\n",mtr, sf_min_speed);
   break;
 
  case 68: //'D'  -get acceleration
-	 //sf_accel = get_accel(mtr);
-	 pci.printf("_RD%d\n", sf_accel);
+	 sf_accel = get_accel(motors, mtr);
+	 pci.printf("_RD_%d_%d\n",mtr, sf_accel);
   break;
 
  case 69: //'E'  -get deceleration
-	 //sf_deccel = get_deccel(mtr);
-	 pci.printf("_RE%d\n", sf_deccel);
+	 sf_deccel = get_deccel(motors, mtr);
+	 pci.printf("_RE_%d_%d\n",mtr, sf_deccel);
   break;
 
  case 70: //'F'  -get mark
- 	 //sf_mark = get_mark(mtr);
- 	 pci.printf("_RF%d\n", sf_mark);
+ 	 sf_mark = get_mark(motors, mtr);
+ 	 pci.printf("_RF_%d_%d\n",mtr, sf_mark);
   break;
 
  case 72: //'H'  -get parameter
-	 //sf_parameter_value = get_parameter(mtr, sf_parameter);
+	 sf_parameter_value = get_parameter(motors, mtr, sf_parameter);
  	 pci.printf("_RH%d_%d", sf_parameter, sf_parameter_value);
   break;
 
  case 73: //'I'  -get kval hold
-	 //sf_direction = get_direction(mtr);
-	 pci.printf("_RI%d\n", sf_kval_hold);
+	 sf_direction = get_direction(motors, mtr);
+	 pci.printf("_RI_%d_%d\n",mtr, sf_kval_hold);
   break;
 
  case 74: //'J'  -get kval run
- 	 //sf_direction = get_direction(mtr);
- 	 pci.printf("_RJ%d\n", sf_kval_run);
+ 	 sf_direction = get_direction(motors, mtr);
+ 	 pci.printf("_RJ_%d_%d\n",mtr, sf_kval_run);
    break;
 
  case 75: //'K'  -get kval accel
- 	 //sf_direction = get_direction(mtr);
- 	 pci.printf("_RK%d\n", sf_kval_hold);
+ 	 sf_direction = get_direction(motors, mtr);
+ 	 pci.printf("_RK_%d_%d\n",mtr, sf_kval_hold);
    break;
 
  case 76: //'L'  -get kval deccel
-  	 //sf_direction = get_direction(mtr);
-  	 pci.printf("_RL%d\n", sf_kval_hold);
+  	 sf_direction = get_direction(motors, mtr);
+  	 pci.printf("_RL_%d_%d\n",mtr, sf_kval_hold);
  break;
 
  case 77: //'M'  -get speed
-	 //sf_speed = get_speed(mtr);
-	 pci.printf("_RM1224\n");
+	 sf_speed = get_speed(motors, mtr);
+	 pci.printf("_RM_%d_%d\n",mtr,sf_speed);
  break;
 
  case 78: //'N'  -get direction
-	 //sf_direction = get_direction(mtr);
-	 pci.printf("_RN%d\n", sf_direction);
+	 sf_direction = get_direction(motors, mtr);
+	 pci.printf("_RN_%d_%d\n",mtr, sf_direction);
   break;
 
  case 79: //'O'  -get status
-	 //sf_status = get_status(mtr);
- 	 pci.printf("_RO%d\n", sf_status);
+	 sf_status = get_status(motors, mtr);
+ 	 pci.printf("_RO_%d_%d\n",mtr, sf_status);
   break;
 
 
  case 80: //'P'  -get position
- 	 //sf_position = get_position(mtr);
- 	 pci.printf("_RP%d\n", sf_position);
+ 	 sf_position = get_position(motors, mtr);
+ 	 pci.printf("_RP_%d_%d\n",mtr, sf_position);
   break;
 
 
 
  case 81: //'Q'  -get max voltage
-  	 pci.printf("_RQ%d\n", sf_max_voltage);
+  	 pci.printf("_RQ_%d_%d\n",mtr, sf_max_voltage);
    break;
 
  case 82: //'R'  -get max current
-  	 pci.printf("_RR%d\n", sf_max_current);
+  	 pci.printf("_RR_%d_%d\n",mtr, sf_max_current);
    break;
 
  case 86: //'V'  -get all
@@ -279,4 +282,27 @@ bool failure_message(void)
 
 	pci.printf("failure_mesage\n");
 	return true;
+}
+
+int16_t extract_int(char *input)
+{
+    char numbers[STRING_SIZE];
+    int16_t number_pos = 0;
+    for (uint16_t i = 0; i < STRING_SIZE; i++) {
+        if ((input[i] > 47) and (input[i] < 58)) { //ACSI set of numbers
+            numbers[number_pos] = input[i];
+            number_pos++;
+        }
+    }
+    return atoi(numbers);
+}
+
+uint8_t extract_motor (char *input)
+{
+	uint8_t motor_num;
+	if (input[4] == 'a')
+		motor_num = 0;
+	else if (input[4] == 'b')
+		motor_num = 1;
+	return motor_num;
 }

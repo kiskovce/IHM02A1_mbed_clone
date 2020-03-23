@@ -13,8 +13,6 @@ float kval_hold;
 float kval_accel;
 float kval_decel;
 
-uint8_t mtr;
-
 
 
 
