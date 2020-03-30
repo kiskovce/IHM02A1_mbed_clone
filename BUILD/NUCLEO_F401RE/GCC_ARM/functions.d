@@ -1,6 +1,6 @@
 BUILD\NUCLEO_F401RE\GCC_ARM\functions.o: functions.cpp \
  BUILD\NUCLEO_F401RE\GCC_ARM\mbed_config.h functions.h \
- X_NUCLEO_IHM02A1/BSP/XNucleoIHM02A1.h mbed-os/mbed.h \
+ my_X_NUCLEO_IHM02A1/BSP/XNucleoIHM02A1.h mbed-os/mbed.h \
  mbed-os/platform/mbed_version.h mbed-os/rtos/rtos.h \
  mbed-os/rtos/mbed_rtos_storage.h \
  mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_storage.h \
@@ -236,12 +236,12 @@ BUILD\NUCLEO_F401RE\GCC_ARM\functions.o: functions.cpp \
  mbed-os/platform/mbed_mpu_mgmt.h mbed-os/hal/mpu_api.h \
  mbed-os/platform/ScopedRamExecutionLock.h mbed-os/platform/mbed_stats.h \
  mbed-os/platform/Callback.h mbed-os/platform/ScopedLock.h \
- X_NUCLEO_IHM02A1/X_NUCLEO_COMMON/DevSPI/DevSPI.h \
- X_NUCLEO_IHM02A1/BSP/x_nucleo_ihm02a1_config.h \
- X_NUCLEO_IHM02A1/Components/L6470/L6470.h \
- X_NUCLEO_IHM02A1/Components/L6470/L6470_def.h \
- X_NUCLEO_IHM02A1/Components/L6470/../Common/microstepping_motor_def.h \
- X_NUCLEO_IHM02A1/Components/L6470/../Common/component_def.h \
- X_NUCLEO_IHM02A1/ST_INTERFACES/Actuators/StepperMotor.h \
- X_NUCLEO_IHM02A1/ST_INTERFACES/Common/Component.h variables.h \
+ my_X_NUCLEO_IHM02A1/X_NUCLEO_COMMON/DevSPI/DevSPI.h \
+ my_X_NUCLEO_IHM02A1/BSP/x_nucleo_ihm02a1_config.h \
+ my_X_NUCLEO_IHM02A1/Components/L6470/L6470.h \
+ my_X_NUCLEO_IHM02A1/Components/L6470/L6470_def.h \
+ my_X_NUCLEO_IHM02A1/Components/L6470/../Common/microstepping_motor_def.h \
+ my_X_NUCLEO_IHM02A1/Components/L6470/../Common/component_def.h \
+ my_X_NUCLEO_IHM02A1/ST_INTERFACES/Actuators/StepperMotor.h \
+ my_X_NUCLEO_IHM02A1/ST_INTERFACES/Common/Component.h variables.h \
  serial_function.h
