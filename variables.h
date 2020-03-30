@@ -14,4 +14,6 @@ extern float kval_hold;
 extern float kval_accel;
 extern float kval_decel;
 
+extern int16_t x_position;
+extern int16_t y_position;
 #endif /* VARIABLES_CPP_ */

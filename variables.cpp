@@ -13,6 +13,8 @@ float kval_hold;
 float kval_accel;
 float kval_decel;
 
+int16_t x_position;
+int16_t y_position;
 
 
 

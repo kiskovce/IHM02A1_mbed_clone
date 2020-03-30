@@ -22,17 +22,10 @@ int main()
 	wait_ms(1500);
 	bool reply = false;
 	int speedoo;
+	bool msg_ok = false;
 
 	  switch (message[0])
 	  {
-	  case 65:  //'A' - test write
-		  motors[0]->set_max_speed(121);
-		  pci.printf("_A\n");
-	  break;
-
-	  case 66:  //'B' - test read
-		  pci.printf ("_B_%d\n", motors[0]->get_max_speed());
-	  break;
 
 	  case 83:  //'S' - set setup
 		reply = set_message(motors);
@@ -42,18 +35,24 @@ int main()
 		reply = read_message(motors);
 	  break;
 
-	  case 88:   //'X'  X move
-		speedoo = motors[0]->get_max_speed();
-		pci.printf("_X\n");
+	  case 88:   //'X'  X move                 //message X_b__2000
+		msg_ok = x_movement(motors);
+		if (msg_ok == true)
+			pci.printf("_X_OK\n");
+		else
+			pci.printf("_X!!\n");
 	  break;
 
-	  case 89:  // 'Y' Y move
-		  motors[0]->set_max_speed(200);
-		  pci.printf("_Y\n");
+	  case 89:  // 'Y' Y move               //message Y_f__5000
+		msg_ok = y_movement(motors);
+		if (msg_ok == true)
+			pci.printf("_X_OK\n");
+		else
+			pci.printf("_X!!\n");
 	  break;
 
 	  case 90:  // 'Z' XY move
-		  reply = xy_movement();
+		  reply = xy_movement(motors);
 		  pci.printf("_Z\n");
 	  break;
 

@@ -134,3 +134,8 @@ void set_kval_decel(L6470 **motors, uint8_t mtr, float kval_decel)
 	init[mtr].kvaldec = kval_decel;
 }
 
+void set_parameter(L6470  **motors, uint8_t mtr, uint8_t parameter, uint16_t value)
+{
+	motors[mtr]->set_parameter(parameter, value);
+}
+
