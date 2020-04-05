@@ -244,4 +244,4 @@ BUILD\NUCLEO_F401RE\GCC_ARM\main.o: main.cpp \
  my_X_NUCLEO_IHM02A1/Components/L6470/../Common/component_def.h \
  my_X_NUCLEO_IHM02A1/ST_INTERFACES/Actuators/StepperMotor.h \
  my_X_NUCLEO_IHM02A1/ST_INTERFACES/Common/Component.h functions.h \
- serial_function.h variables.h L6470_functions.h
+ serial_function.h variables.h L6470_functions.h g_code.h

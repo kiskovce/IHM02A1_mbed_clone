@@ -16,6 +16,7 @@ float kval_decel;
 int16_t x_position;
 int16_t y_position;
 
+uint8_t error_code;
 
 
 

@@ -3,6 +3,7 @@
 
 #include "mbed.h"
 #include "variables.h"
+#include "L6470.h"
 
 extern char message[32];
 extern RawSerial pci;

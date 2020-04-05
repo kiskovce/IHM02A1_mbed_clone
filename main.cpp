@@ -6,7 +6,8 @@
 #include "L6470.h"
 #include "StepperMotor.h"
 #include "L6470_functions.h"
-
+#include "g_code.h"
+/*=============== creating objects===============*/
 XNucleoIHM02A1 *x_nucleo_ihm02a1;
 DevSPI dev_spi(D11, D12, D3);
 
@@ -15,7 +16,7 @@ int main()
    x_nucleo_ihm02a1 = new XNucleoIHM02A1(&init[0], &init[1], A4, A5, D4, A2, &dev_spi);      /* Initializing Motor Control Expansion Board. */
    L6470 **motors = x_nucleo_ihm02a1->get_components();       /* Building a list of motor control components. */
    pci.attach(&onDataReceived, Serial::RxIrq);
-   pci.printf("****************************");
+
 
   while (1)
   {
@@ -34,6 +35,10 @@ int main()
 	  case 82:  //'R' - read setup
 		reply = read_message(motors);
 	  break;
+
+	  case 71: // 'G' -- G code
+		  error_code = g_code();
+		 break;
 
 	  case 88:   //'X'  X move                 //message X_b__2000
 		msg_ok = x_movement(motors);

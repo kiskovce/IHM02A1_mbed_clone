@@ -9,7 +9,7 @@
 
 #define STRING_SIZE 7
 
-RawSerial pci(USBTX, USBRX);
+UnbufferedSerial pci(USBTX, USBRX);
 
 EventQueue *queue = mbed_event_queue();
 
@@ -56,11 +56,10 @@ bool set_message(L6470 **motors)
 
 {
 	int second_char = message[1];
-	uint16_t num = extract_int(message);
-	uint8_t mtr = extract_motor(message);
+	uint8_t mtr;
+	uint16_t num;
 	uint8_t parameter;
-	int16_t value;
-	StepperMotor::step_mode_t step_mode = StepperMotor::STEP_MODE_FULL;
+	uint16_t value;
 
 	switch (second_char)
 	{

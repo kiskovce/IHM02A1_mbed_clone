@@ -16,4 +16,6 @@ extern float kval_decel;
 
 extern int16_t x_position;
 extern int16_t y_position;
+
+extern uint8_t error_code;
 #endif /* VARIABLES_CPP_ */

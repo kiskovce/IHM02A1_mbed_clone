@@ -11,3 +11,5 @@ data/variables.cpp.i
 data/serial_function.cpp.i
 data/functions.h.i
 data/main.h.i
+data/g_code.h.i
+data/g_code.cpp.i
