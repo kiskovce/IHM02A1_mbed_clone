@@ -9,7 +9,7 @@
 
 #define STRING_SIZE 7
 
-UnbufferedSerial pci(USBTX, USBRX);
+RawSerial pci(USBTX, USBRX);
 
 EventQueue *queue = mbed_event_queue();
 
@@ -88,6 +88,8 @@ bool set_message(L6470 **motors)
 		}
 		else
 			set_max_speed(motors, mtr, num);
+		pci.printf("_SB0\n");
+		set_max_speed(motors, 0, 200);
 	break;
 
 	case 67: //'C' set_min_speed

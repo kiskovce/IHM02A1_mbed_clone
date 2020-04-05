@@ -16,6 +16,10 @@ bool read_message(L6470 **motors);
 bool x_movement(L6470 **motors);
 bool y_movement(L6470 **motors);
 bool xy_movement(L6470 **motors);
+bool read_message(void);
+bool x_movement(void);
+bool y_movement(void);
+bool xy_movement(void);
 bool failure_message(void);
 
 int16_t extract_int(char *input);

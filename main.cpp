@@ -11,6 +11,8 @@
 XNucleoIHM02A1 *x_nucleo_ihm02a1;
 DevSPI dev_spi(D11, D12, D3);
 
+
+/*====main main main ========*/
 int main()
 {
    x_nucleo_ihm02a1 = new XNucleoIHM02A1(&init[0], &init[1], A4, A5, D4, A2, &dev_spi);      /* Initializing Motor Control Expansion Board. */
@@ -27,13 +29,12 @@ int main()
 
 	  switch (message[0])
 	  {
-
 	  case 83:  //'S' - set setup
-		reply = set_message(motors);
+		reply = set_message(motors);     ///PRISTUP CEZ serial_functions.cpp - > L6470_functions.cpp NEFUNGUJE
 	  break;
 
 	  case 82:  //'R' - read setup
-		reply = read_message(motors);
+		reply = read_message(motors);    ///PRISTUP CEZ serial_functions.cpp - > L6470_functions.cpp NEFUNGUJE
 	  break;
 
 	  case 71: // 'G' -- G code
